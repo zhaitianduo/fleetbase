@@ -94,22 +94,22 @@ FROM scheduler-base as scheduler-dev
 ENTRYPOINT []
 CMD ["go-crond", "--verbose", "--no-auto", "root:./crontab"]
 
-# Scheduler stage
-FROM scheduler-base as scheduler
-ENTRYPOINT ["/sbin/ssm-parent", "-c", ".ssm-parent.yaml", "run", "--"]
-CMD ["go-crond", "--verbose", "--no-auto", "root:./crontab"]
+# # Scheduler stage
+# FROM scheduler-base as scheduler
+# ENTRYPOINT ["/sbin/ssm-parent", "-c", ".ssm-parent.yaml", "run", "--"]
+# CMD ["go-crond", "--verbose", "--no-auto", "root:./crontab"]
 
 # Application dev stage
 FROM base as app-dev
 ENTRYPOINT ["docker-php-entrypoint"]
 CMD ["php-fpm"]
 
-# Events stage
-FROM base as events
-ENTRYPOINT ["/sbin/ssm-parent", "-c", ".ssm-parent.yaml", "run", "--", "docker-php-entrypoint"]
-CMD ["php", "artisan", "queue:work", "sqs"]
+# # Events stage
+# FROM base as events
+# ENTRYPOINT ["/sbin/ssm-parent", "-c", ".ssm-parent.yaml", "run", "--", "docker-php-entrypoint"]
+# CMD ["php", "artisan", "queue:work", "sqs"]
 
-# Application stage
-FROM base as app
-ENTRYPOINT ["/sbin/ssm-parent", "-c", ".ssm-parent.yaml", "run", "--", "docker-php-entrypoint"]
-CMD ["php-fpm"]
+# # Application stage
+# FROM base as app
+# ENTRYPOINT ["/sbin/ssm-parent", "-c", ".ssm-parent.yaml", "run", "--", "docker-php-entrypoint"]
+# CMD ["php-fpm"]
